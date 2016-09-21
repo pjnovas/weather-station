@@ -1,0 +1,66 @@
+{
+  "name": "weather-station",
+  "version": "1.0.0",
+  "description": "API for collecting temperature and humidity from ESP8266",
+  "main": "index.js",
+  "scripts": {
+    "start": "better-npm-run dev",
+    "test": "better-npm-run test",
+    "report": "node_modules/.bin/nyc report --reporter=lcov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pjnovas/weather-station.git"
+  },
+  "license": "BSD-2-Clause",
+  "author": "Pablo Novas <pjnovas@gmail.com>",
+  "engines": {
+    "node": "4.5.x"
+  },
+  "dependencies": {
+    "babel-core": "^6.13.2",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-runtime": "^6.12.0",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.11.6",
+    "blipp": "^2.2.1",
+    "bluebird": "^3.4.1",
+    "boom": "^3.2.2",
+    "hapi": "^14.1.0",
+    "hapi-auth-bearer-token": "^4.2.0",
+    "joi": "^9.0.4",
+    "lodash": "^4.15.0",
+    "mongoose": "^4.5.8"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.1.2",
+    "babel-runtime": "^6.11.6",
+    "better-npm-run": "0.0.11",
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "eslint": "^3.2.2",
+    "mocha": "^3.0.2",
+    "nyc": "^8.1.0"
+  },
+  "betterScripts": {
+    "dev": {
+      "command": "node index.js",
+      "env": {
+        "NODE_PATH": ".",
+        "NODE_ENV": "development",
+        "DBNAME": "weather_station",
+        "DEVICES": "lib/devices"
+      }
+    },
+    "test": {
+      "command": "node_modules/.bin/nyc --require babel-core/register node_modules/.bin/mocha",
+      "env": {
+        "NODE_PATH": ".",
+        "NODE_ENV": "test",
+        "DBNAME": "weather_station_tests",
+        "DEVICES": "test/devices_test"
+      }
+    }
+  }
+}
