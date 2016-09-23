@@ -20,3 +20,4 @@ coverage
 .nyc_output
 cache
 lib/devices.json
+arduino/weather_station/config.ino

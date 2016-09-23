@@ -45,7 +45,8 @@ describe('POST /states', () => {
     chai.request(server.listener)
       .post('/api/states')
       .set('Authorization', authorization)
-      .send({ t: 75, h: 53 })
+      .set('x-local-ip', '192.168.1.200')
+      .send({ temperature: 23.2, humidity: 53.1, heatIndex: 23.8 })
       .end((err, res) => {
         expect(res.status).to.be.equal(204);
         expect(res.body).to.be.empty;
@@ -53,9 +54,11 @@ describe('POST /states', () => {
         State.findOne({ device: test_device }, (err, state) => {
           expect(state).to.be.ok;
           expect(state.device).to.be.equal(test_device);
-          expect(state.fahrenheit).to.be.equal(75);
-          expect(state.humidity).to.be.equal(53);
-          expect(state.celsius).to.be.equal(23.9);
+          expect(state.humidity).to.be.equal(53.1);
+          expect(state.temperature).to.be.equal(23.2);
+          expect(state.heatIndex).to.be.equal(23.8);
+          expect(state.localIP).to.be.equal('192.168.1.200');
+          expect(state.publicIP).to.be.equal('127.0.0.1');
 
           expect(state.createdAt).to.be.ok;
           done();
