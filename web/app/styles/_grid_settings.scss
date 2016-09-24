@@ -1,0 +1,9 @@
+@import "bower_components/susy/sass/susy";
+
+$susy: (
+  columns: 12,
+  gutters: 1/4,
+  gutter-position: inside
+);
+
+$container-style: fluid;

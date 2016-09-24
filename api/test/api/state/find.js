@@ -48,7 +48,7 @@ describe('GET /states', () => {
         createStates(key1, 3, new Date(), (err, created1) => {
 
           chai.request(server.listener)
-            .get('/api/states/last')
+            .get('/states/last')
             .end((err, res) => {
               expect(res.status).to.be.equal(200);
               expect(res.body).to.be.an('object');
@@ -100,7 +100,7 @@ describe('GET /states', () => {
           const day = now.getDate();
 
           chai.request(server.listener)
-            .get(`/api/states/${deviceId}/${year}/${month}/${day}`)
+            .get(`/states/${deviceId}/${year}/${month}/${day}`)
             .end((err, res) => {
               expect(res.status).to.be.equal(200);
               expect(res.body).to.be.an('object');
@@ -123,7 +123,7 @@ describe('GET /states', () => {
 
     it('must return a 404 if device id is wrong', done => {
       chai.request(server.listener)
-        .get('/api/states/device-not-found/2016/3/2')
+        .get('/states/device-not-found/2016/3/2')
         .end((err, res) => {
           expect(res.status).to.be.equal(404);
           expect(res.body.message).to.be.equal('device-not-found');
@@ -136,7 +136,7 @@ describe('GET /states', () => {
       const deviceId = devices[key].id;
 
       chai.request(server.listener)
-        .get(`/api/states/${deviceId}/${(new Date()).getFullYear()+1}/3/2`)
+        .get(`/states/${deviceId}/${(new Date()).getFullYear()+1}/3/2`)
         .end((err, res) => {
           expect(res.status).to.be.equal(400);
           expect(res.body.message).to.be.equal('cannot-see-the-future-yet');
@@ -158,7 +158,7 @@ describe('GET /states', () => {
 
       createStates(key, 312, new Date(past), (err, created) => {
         chai.request(server.listener)
-          .get(`/api/states/${deviceId}/last24`)
+          .get(`/states/${deviceId}/last24`)
           .end((err, res) => {
             expect(res.status).to.be.equal(200);
             expect(res.body).to.be.an('object');
@@ -179,7 +179,7 @@ describe('GET /states', () => {
 
     it('must return a 404 if device id is wrong', done => {
       chai.request(server.listener)
-        .get('/api/states/device-not-found/last24')
+        .get('/states/device-not-found/last24')
         .end((err, res) => {
           expect(res.status).to.be.equal(404);
           expect(res.body.message).to.be.equal('device-not-found');

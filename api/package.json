@@ -1,11 +1,12 @@
 {
-  "name": "weather-station",
+  "name": "weather-station-api",
   "version": "1.0.0",
   "description": "API for collecting temperature and humidity from ESP8266",
   "main": "index.js",
   "scripts": {
     "start": "better-npm-run dev",
     "test": "better-npm-run test",
+    "generate": "better-npm-run gen",
     "report": "node_modules/.bin/nyc report --reporter=lcov"
   },
   "repository": {
@@ -58,9 +59,19 @@
         "DEVICES": "lib/devices"
       }
     },
+    "gen": {
+      "command": "node generate.js",
+      "env": {
+        "NODE_PATH": ".",
+        "NODE_ENV": "development",
+        "DBNAME": "weather_station",
+        "DEVICES": "lib/devices"
+      }
+    },
     "test": {
       "command": "node_modules/.bin/nyc --require babel-core/register node_modules/.bin/mocha",
       "env": {
+        "PORT": 1338,
         "NODE_PATH": ".",
         "NODE_ENV": "test",
         "DBNAME": "weather_station_tests",

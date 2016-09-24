@@ -5,7 +5,7 @@ import {
   findByDay
 } from 'lib/controller';
 
-const BASE = '/api';
+const BASE = '';
 
 export default [
   { method: 'GET', path: `${BASE}/states/last`, config: findLast },

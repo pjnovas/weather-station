@@ -29,7 +29,7 @@ describe('POST /states', () => {
 
   it('must validate token', done => {
     chai.request(server.listener)
-      .post('/api/states')
+      .post('/states')
       .set('Authorization', 'Bearer not-a-valid-device')
       .end((err, res) => {
         expect(res.status).to.be.equal(401);
@@ -39,7 +39,7 @@ describe('POST /states', () => {
 
   it('must return a 400 with a valid token and empty payload', done => {
     chai.request(server.listener)
-      .post('/api/states')
+      .post('/states')
       .set('Authorization', authorization)
       .end((err, res) => {
         expect(res.status).to.be.equal(400);
@@ -49,7 +49,7 @@ describe('POST /states', () => {
 
   it('must return a 204 with a valid payload an create an state for the device', done => {
     chai.request(server.listener)
-      .post('/api/states')
+      .post('/states')
       .set('Authorization', authorization)
       .set('x-local-ip', '192.168.1.200')
       .send({ temperature: 23.2, humidity: 53.1, heatIndex: 23.8 })
@@ -82,7 +82,7 @@ describe('POST /states', () => {
 
   it('must replace last stored state if it is called within 5 minutes', done => {
     chai.request(server.listener)
-      .post('/api/states')
+      .post('/states')
       .set('Authorization', authorization)
       .set('x-local-ip', '192.168.1.200')
       .send({ temperature: 30.5, humidity: 80.2, heatIndex: 33.7 })
@@ -110,14 +110,14 @@ describe('POST /states', () => {
     const clock = sinon.useFakeTimers(now.getTime());
 
     chai.request(server.listener)
-      .post('/api/states')
+      .post('/states')
       .set('Authorization', authorization)
       .set('x-local-ip', '192.168.1.200')
       .send({ temperature: 10, humidity: 12, heatIndex: 13 })
       .end((err, res) => {
         expect(res.status).to.be.equal(204);
         expect(res.body).to.be.empty;
-        
+
         clock.restore();
 
         db[`states_${test_device}`].find({}, (err, states) => {

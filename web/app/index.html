@@ -1,0 +1,70 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <title>Weather Station</title>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <meta name="theme-color" content="#FFFFFF">
+
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+
+    <!-- build:js scripts/vendor/modernizr.js -->
+    <script src="/bower_components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div id="app">
+      <div id="current-state"></div>
+      <canvas id="temp" width="1000" height="500"></canvas>
+      <canvas id="hum" width="1000" height="500"></canvas>
+    </div>
+
+    <script id="current-state-template" type="text/x-handlebars-template">
+      {{#if loading}}
+      <p class="loading">Cargando Estado</p>
+      {{else}}
+        {{#if error}}
+        <p class="error">{{error}}</p>
+        {{else}}
+        <ul class="current-state">
+          <li><i class="icon icon-temperatire"></i>{{state.temperature}}<i class="icon icon-celcius"></i></li>
+          <li><i class="icon icon-water"></i>{{state.humidity}}<i class="icon icon-percent"></i></li>
+          <li>
+            <i class="icon icon-temperatire"></i>
+            <i class="icon icon-user"></i>
+            {{state.heatIndex}}
+            <i class="icon icon-celcius"></i>
+          </li>
+          <li><i class="icon icon-clock"></i>{{state._id}}</li>
+        </ul>
+        {{/if}}
+      {{/if}}
+    </script>
+
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js scripts/plugins.js -->
+    <!-- endbuild -->
+
+    <!-- build:js scripts/main.js -->
+    <script src="scripts/bundle.js"></script>
+    <!-- endbuild -->
+  </body>
+</html>

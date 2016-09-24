@@ -1,0 +1,5 @@
+{
+  "apiURL": "http://0.0.0.0:1337",
+  "refresh": 5,
+  "deviceId": "device-ID-set-at-api"
+}
