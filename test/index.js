@@ -1,1 +1,2 @@
+require('./clock');
 require('./api');

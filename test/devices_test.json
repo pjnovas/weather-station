@@ -1,11 +1,10 @@
 {
   "123456": {
-    "name": "kitchen"
+    "id": "my-magic-station",
+    "storeBy": { "minutes": 5 }
   },
   "223456": {
-    "name": "living"
-  },
-  "323456": {
-    "name": "yard"
+    "id": "my-magic-station-2",
+    "storeBy": { "minutes": 5 }
   }
 }
