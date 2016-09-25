@@ -76,6 +76,21 @@ body {
       bottom: 15px;
     }
 
+    .icon-up-dir-1,
+    .icon-down-dir-1 {
+      position: absolute;
+      right: -10px;
+      top: 0;
+    }
+
+    .icon-up-dir-1 {
+      color: #42CE42;
+    }
+
+    .icon-down-dir-1 {
+      color: #F12D2D;
+    }
+
     .icon-user {
       position: absolute;
       left: 10px;
@@ -83,6 +98,13 @@ body {
 
     .icon-percent {
       font-size: 20px;
+    }
+
+    &:nth-child(2) {
+      .icon-up-dir-1,
+      .icon-down-dir-1 {
+        right: 20px;
+      }
     }
   }
 }
@@ -115,6 +137,18 @@ canvas {
         margin-left: -40px;
       }
 
+      .icon-up-dir-1,
+      .icon-down-dir-1 {
+        position: inherit;
+        margin-left: -20px;
+      }
+
+      &:nth-child(2) {
+        .icon-up-dir-1,
+        .icon-down-dir-1 {
+          right: 0;
+        }
+      }
     }
   }
 

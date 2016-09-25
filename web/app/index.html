@@ -40,15 +40,31 @@
         <p class="error">{{error}}</p>
         {{else}}
         <ul class="current-state">
-          <li><i class="icon icon-temperatire"></i>{{state.temperature}}<i class="icon icon-celcius"></i></li>
-          <li><i class="icon icon-water"></i>{{state.humidity}}<i class="icon icon-percent"></i></li>
           <li>
-            <i class="icon icon-temperatire"></i>
-            <i class="icon icon-user"></i>
-            {{state.heatIndex}}
-            <i class="icon icon-celcius"></i>
+            <i class="icon icon-temperatire"></i>{{state.temperature}}<i class="icon icon-celcius"></i>
+            {{#if trend}}
+              {{#isPositive trend.temp}}<i class="icon icon-up-dir-1" title="{{round1 trend.temp}}°"></i>
+              {{else}}<i class="icon icon-down-dir-1" title="{{round1 trend.temp}}°"></i>
+              {{/isPositive}}
+            {{/if}}
           </li>
-          <li><i class="icon icon-clock"></i>{{state._id}}</li>
+          <li>
+            <i class="icon icon-water"></i>{{state.humidity}}<i class="icon icon-percent"></i>
+            {{#if trend}}
+              {{#isPositive trend.hum}}<i class="icon icon-up-dir-1" title="{{round1 trend.hum}}%"></i>
+              {{else}}<i class="icon icon-down-dir-1" title="{{round1 trend.hum}}%"></i>
+              {{/isPositive}}
+            {{/if}}
+          </li>
+          <li>
+            <i class="icon icon-temperatire"></i><i class="icon icon-user"></i>{{state.heatIndex}}<i class="icon icon-celcius"></i>
+            {{#if trend}}
+              {{#isPositive trend.hi}}<i class="icon icon-up-dir-1" title="{{round1 trend.hi}}°"></i>
+              {{else}}<i class="icon icon-down-dir-1" title="{{round1 trend.hi}}°"></i>
+              {{/isPositive}}
+            {{/if}}
+          </li>
+          <li><i class="icon icon-clock"></i>{{state.time}}</li>
         </ul>
         {{/if}}
       {{/if}}

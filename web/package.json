@@ -49,6 +49,8 @@
     "chart.js": "^2.3.0",
     "handlebars": "^4.0.5",
     "moment": "^2.15.1",
-    "moment-round": "SpotOnInc/moment-round#27532b8"
+    "moment-round": "SpotOnInc/moment-round#27532b8",
+    "point2js": "0.0.1",
+    "regression": "^1.2.1"
   }
 }

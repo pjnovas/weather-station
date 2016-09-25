@@ -12,6 +12,7 @@ const REFRESH_TIME = refresh * 60 * 1000; // ms
 
 let timer, labels, timestamps;
 let tempChart, humChart;
+let renderActive = false;
 
 const buildLabels = () => {
   const minPeriod = 5;
@@ -32,11 +33,24 @@ const buildLabels = () => {
 };
 
 const rawData = (data, idx) => {
-  return timestamps.reduce( (raw, timestamp) => {
+  let min = Number.POSITIVE_INFINITY, max = Number.NEGATIVE_INFINITY;
+
+  const dataset = timestamps.reduce( (raw, timestamp) => {
     const read = data[timestamp];
-    raw.push( (read && read[idx]) || null );
+    let value = (read && read[idx]) || null;
+
+    if (value && value > max) max = value;
+    if (value && value < min) min = value;
+
+    raw.push(value);
     return raw;
   }, []);
+
+  return {
+    dataset,
+    min,
+    max
+  }
 };
 
 const getDataSheetStyle = _color => {
@@ -66,7 +80,7 @@ const getDataSheetStyle = _color => {
 };
 
 const render = data => {
-  if (data.loading){
+  if (!renderActive || data.loading){
     return;
   }
 
@@ -86,6 +100,8 @@ const render = data => {
   };
 
   const color = '#1F365D'
+  const roundBy = 5;
+
   const tOpts = {
     ...opts,
     scales: {
@@ -100,8 +116,8 @@ const render = data => {
         },
         ticks: {
           callback: label => label + '° C',
-          max: 40,
-          min: 0,
+          max: Math.ceil(Math.max(temp.max, hi.max) / roundBy) * roundBy,
+          min: Math.floor(Math.min(temp.min, hi.min) / roundBy) * roundBy,
           stepSize: 5
         }
       }]
@@ -122,8 +138,8 @@ const render = data => {
         },
         ticks: {
           callback: label => label + ' %',
-          max: 100,
-          min: 0,
+          max: Math.ceil(hum.max / roundBy) * roundBy,
+          min: Math.floor(hum.min / roundBy) * roundBy,
           stepSize: 10
         }
       }]
@@ -144,11 +160,11 @@ const render = data => {
       labels,
       datasets: [{
         label: 'Temperatura',
-        data: temp,
+        data: temp.dataset,
         ...getDataSheetStyle('227,132,44')
       }, {
         label: 'Sensación Térmica',
-        data: hi,
+        data: hi.dataset,
         ...getDataSheetStyle('214, 90, 57')
       }]
     },
@@ -161,7 +177,7 @@ const render = data => {
       labels,
       datasets: [{
         label: 'Humedad',
-        data: hum,
+        data: hum.dataset,
         ...getDataSheetStyle('75,192,192')
       }]
     },
@@ -169,12 +185,17 @@ const render = data => {
   });
 };
 
+let onData = () => {};
+
 const fetchData = () => {
   render({ loading: true });
 
   const count = () => {
     axios.get(`${apiURL}/states/${deviceId}/last24`)
-      .then( res => render({ loading: false, states: res.data }))
+      .then( res => {
+        render({ loading: false, states: res.data });
+        onData && onData(res.data);
+      })
       .catch( data => render({ loading: false, error: data.message }));
 
     clearTimeout(timer);
@@ -184,7 +205,10 @@ const fetchData = () => {
   count();
 };
 
-const load = () => {
+const load = (_render, _onData) => {
+  renderActive = _render;
+  onData = _onData || onData;
+
   fetchData();
 };
 
