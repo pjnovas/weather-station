@@ -5,3 +5,4 @@ test/bower_components
 npm-debug.log
 app/scripts/config.json
 dist/
+.publish
