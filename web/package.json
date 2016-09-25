@@ -8,7 +8,8 @@
   "author": "Pablo Novas <pjnovas@gmail.com>",
   "scripts": {
     "start": "gulp serve",
-    "dist": "gulp"
+    "dist": "gulp",
+    "deploy": "gulp && gulp deploy"
   },
   "devDependencies": {
     "babel-core": "^6.4.0",
@@ -25,6 +26,7 @@
     "gulp-cache": "^0.4.2",
     "gulp-cssnano": "^2.0.0",
     "gulp-eslint": "^2.0.0",
+    "gulp-gh-pages": "^0.5.4",
     "gulp-htmlmin": "^1.3.0",
     "gulp-if": "^2.0.0",
     "gulp-imagemin": "^2.2.1",
