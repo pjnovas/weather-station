@@ -8,4 +8,6 @@ const char* apiURL = "http://[local-ip-for-test]:1337/api/states";
 
 const char* deviceID = "TOKEN-DEVICE"; // one set in api devices.json file
 const long intervalPOST = 5*60*1000; // 5 minutes
+
+const boolean DEBUG = false; // For showing messages by Serial
 */
