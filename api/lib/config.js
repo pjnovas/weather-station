@@ -4,8 +4,14 @@ const {
   HOST,
   DBHOST,
   DBNAME,
-  DEVICES
+  DEVICES,
+  OWMAPI
 } = process.env;
+
+let owmapi = { enabled: false };
+if (OWMAPI){
+  owmapi = require(OWMAPI);
+}
 
 export default {
   env: NODE_ENV,
@@ -13,5 +19,6 @@ export default {
   host: HOST || '0.0.0.0',
   dbHost: DBHOST || 'localhost',
   dbName: DBNAME,
-  devices: require(DEVICES)
+  devices: require(DEVICES),
+  owmapi
 }

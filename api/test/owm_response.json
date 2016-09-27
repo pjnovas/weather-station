@@ -1,0 +1,41 @@
+{
+  "coord": {
+    "lon": -58.46,
+    "lat": -34.56
+  },
+  "weather": [
+    {
+      "id": 800,
+      "main": "Clear",
+      "description": "clear sky",
+      "icon": "01n"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 14.91,
+    "pressure": 1029.8,
+    "humidity": 80,
+    "temp_min": 14.91,
+    "temp_max": 14.91,
+    "sea_level": 1031.21,
+    "grnd_level": 1029.8
+  },
+  "wind": {
+    "speed": 3.47,
+    "deg": 82.5027
+  },
+  "clouds": {
+    "all": 0
+  },
+  "dt": 1474938270,
+  "sys": {
+    "message": 0.0033,
+    "country": "AR",
+    "sunrise": 1474968926,
+    "sunset": 1475013261
+  },
+  "id": 3436077,
+  "name": "Belgrano",
+  "cod": 200
+}

@@ -90,6 +90,9 @@ const render = data => {
   const hum = rawData(data.states, 1);
   const hi = rawData(data.states, 2);
 
+  const tempOwm = rawData(data.owm, 0);
+  const humOwm = rawData(data.owm, 1);
+
   const ctxT = document.getElementById('temp');
   const ctxH = document.getElementById('hum');
 
@@ -116,8 +119,8 @@ const render = data => {
         },
         ticks: {
           callback: label => label + '° C',
-          max: Math.ceil(Math.max(temp.max, hi.max) / roundBy) * roundBy,
-          min: Math.floor(Math.min(temp.min, hi.min) / roundBy) * roundBy,
+          max: Math.ceil(Math.max(temp.max, hi.max, tempOwm.max) / roundBy) * roundBy,
+          min: Math.floor(Math.min(temp.min, hi.min, tempOwm.min) / roundBy) * roundBy,
           stepSize: 5
         }
       }]
@@ -138,8 +141,8 @@ const render = data => {
         },
         ticks: {
           callback: label => label + ' %',
-          max: Math.ceil(hum.max / roundBy) * roundBy,
-          min: Math.floor(hum.min / roundBy) * roundBy,
+          max: Math.ceil(Math.max(hum.max,humOwm.max) / roundBy) * roundBy,
+          min: Math.floor(Math.min(hum.min, humOwm.min) / roundBy) * roundBy,
           stepSize: 10
         }
       }]
@@ -166,6 +169,10 @@ const render = data => {
         label: 'Sensación Térmica',
         data: hi.dataset,
         ...getDataSheetStyle('214, 90, 57')
+      }, {
+        label: 'Temperatura API',
+        data: tempOwm.dataset,
+        ...getDataSheetStyle('189, 189, 189')
       }]
     },
     options: tOpts
@@ -179,6 +186,10 @@ const render = data => {
         label: 'Humedad',
         data: hum.dataset,
         ...getDataSheetStyle('75,192,192')
+      }, {
+        label: 'Humedad API',
+        data: humOwm.dataset,
+        ...getDataSheetStyle('189, 189, 189')
       }]
     },
     options: hOpts
@@ -191,12 +202,16 @@ const fetchData = () => {
   render({ loading: true });
 
   const count = () => {
-    axios.get(`${apiURL}/states/${deviceId}/last24`)
-      .then( res => {
-        render({ loading: false, states: res.data });
-        onData && onData(res.data);
-      })
-      .catch( data => render({ loading: false, error: data.message }));
+
+    axios.all([
+      axios.get(`${apiURL}/states/${deviceId}/last24`),
+      axios.get(`${apiURL}/states/owm_data/last24`)
+    ])
+    .then(axios.spread(function (_states, _owm) {
+      render({ loading: false, states: _states.data, owm: _owm.data });
+      onData && onData(_states.data);
+    }))
+    .catch( data => render({ loading: false, error: data.message }));
 
     clearTimeout(timer);
     timer = setTimeout(count, REFRESH_TIME);

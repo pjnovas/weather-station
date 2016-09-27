@@ -1,6 +1,6 @@
 import Boom from 'boom';
 import Joi from 'joi';
-import { State } from 'lib/models';
+import { State, OWM } from 'lib/models';
 import { devices } from 'lib/config';
 import Promise from 'bluebird';
 
@@ -20,8 +20,11 @@ exports.create = {
       ...request.payload
     };
 
-    State.save(request.auth.credentials.token, new Date(), state, () => {
-      reply().code(204);
+    let date = new Date();
+    State.save(request.auth.credentials.token, date, state, () => {
+      OWM.fetchAndSave(date).then( () => {
+        reply().code(204);
+      });
     });
   }
 };
@@ -61,6 +64,10 @@ exports.findByDay = {
       devices[device].id === deviceId
     );
 
+    if (deviceId === 'owm_data') {
+      device = 'owm_data';
+    }
+
     if (!device){
       return reply(Boom.notFound('device-not-found'));
     }
@@ -93,6 +100,10 @@ exports.findLast24 = {
     let [device] = Object.keys(devices).filter( device =>
       devices[device].id === deviceId
     );
+
+    if (deviceId === 'owm_data') {
+      device = 'owm_data';
+    }
 
     if (!device){
       return reply(Boom.notFound('device-not-found'));

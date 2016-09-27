@@ -32,6 +32,6 @@ export const findByDay = (device, date, done) => {
 export const findLast24 = (device, date, done) => {
   const $gt = new Date(date.getTime() - (24 * 60 * 60 * 1000)).getTime();
   const $lt = (new Date(date)).getTime();
-  
+
   db[`states_${device}`].find({ _id : { $gt, $lt } }).sort({ _id: 1 }, done);
 };
