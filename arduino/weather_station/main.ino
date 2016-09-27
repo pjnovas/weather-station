@@ -16,7 +16,7 @@ DHT dht(DHTPIN, DHTTYPE, 11);
 float humidity, temp_c, hi_c;  // Values read from sensor
 
 unsigned long previousMillis = 0;        // will store last temp was read
-const long interval = 10000;              // interval at which to read sensor
+const long interval = 30000;              // interval at which to read sensor
 
 unsigned long previousMillisPOST = 0;        // will store last temp was sent to server
 
@@ -33,7 +33,7 @@ void read_temperature() {
     _hi_c = dht.computeHeatIndex(temp_c, humidity, false);
 
     // Check if any reads failed and exit early (to try again).
-    if (isnan(humidity) || isnan(temp_c) || isnan(hi_c)) {
+    if (isnan(_humidity) || isnan(_temp_c) || isnan(_hi_c)) {
       if (DEBUG) {Serial.println("Failed to read from DHT sensor!");}
       return;
     }
@@ -82,6 +82,11 @@ void printWifiStatus(){
   Serial.println("-----------------------------");
 }
 
+void setPOSTRetry() {
+  previousMillisPOST = millis() - (intervalPOST - retryPOST);
+  if (DEBUG){Serial.println("[HTTP] POST ERROR ... Retrying \n");}
+}
+
 void notifyPOST() {
   if (DEBUG) {printWifiStatus();}
 
@@ -97,21 +102,20 @@ void notifyPOST() {
 
   int httpCode = http.POST(json);
 
-
   if(httpCode > 0) {
-    if (DEBUG){
-      Serial.printf("[HTTP] POST... code: %d\n", httpCode);
+    if (DEBUG){Serial.printf("[HTTP] POST... code: %d\n", httpCode);}
 
-      // file found at server
-      if(httpCode >= 200 && httpCode < 300) {
-        Serial.println("[HTTP] POST OK");
-      }
+    // file found at server
+    if(httpCode >= 200 && httpCode < 300) {
+      if (DEBUG){Serial.println("[HTTP] POST OK");}
+    }
+    else {
+      setPOSTRetry();
     }
   }
   else {
     if (DEBUG) {Serial.printf("[HTTP] POST - failed, error: %s\n", http.errorToString(httpCode).c_str());}
-    // clear the timestamp to retry right way
-    previousMillisPOST = 0;
+    setPOSTRetry();
   }
 
   http.end();
