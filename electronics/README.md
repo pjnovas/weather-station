@@ -13,3 +13,6 @@
 * ESP8266 WiFi ESP-01
 * DHT22 Humidity and Temperature Sensor	
 * FTDI Basic Programmer (FT232RL)
+
+## Uploading code
+![uploading code](uploading_code.jpg)
