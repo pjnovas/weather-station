@@ -1,3 +1,5 @@
+![schem](weather_station_schem.png)
+
 ## Components
 * Power plug
 * Capacitor Polarized	100uf 25v
