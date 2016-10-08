@@ -15,4 +15,9 @@
 * FTDI Basic Programmer (FT232RL)
 
 ## Uploading code
+1. Press and hold Flash Button
+2. Press once Reset button (keep holding flash)
+3. Click Upload on Arduino IDE
+4. After compiling and when starts uploading release Flash Button
+
 ![uploading code](uploading_code.jpg)
