@@ -3,4 +3,4 @@ It uses 8 screws of 2.5mm x 6mm:
 * 1 for DHT sensor
 * 4 for the box
 
-![box](box/box_open.jpg)
+![box](box_open.jpg)
